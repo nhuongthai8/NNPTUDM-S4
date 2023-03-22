@@ -1,0 +1,16 @@
+[{
+	"username":"user01",
+	"email":"user01@gmail.com",
+	"roles":"user",
+	"password":"123123"
+},{
+	"username":"admin01",
+	"email":"admin01@gmail.com",
+	"roles":"admin",
+	"password":"123123"
+},{
+	"username":"publisher01",
+	"email":"publisher01@gmail.com",
+	"roles":"publisher",
+	"password":"123123"
+}]
