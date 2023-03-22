@@ -1,7 +1,8 @@
 var express = require('express');
 var router = express.Router();
 var models = require('../models/careers');
-var handleresult = require('../configs/handleResult')
+var handleresult = require('../configs/handleResult');
+var {Rules,validate} = require('../validator/careers');
 
 /* GET users listing. */
 router.get('/', async function (req, res, next) {
@@ -21,7 +22,7 @@ router.get('/:id',async function (req, res, next) {
     handleresult.showResult(res,400,false,error);
   }
 });
-router.post('/add',async function (req, res, next) {
+router.post('/add',Rules(),validate,async function (req, res, next) {
   try {
     var item = await models.addAnItem(req.body);
     handleresult.showResult(res,200,true,item);
