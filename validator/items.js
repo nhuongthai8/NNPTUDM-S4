@@ -13,7 +13,8 @@ const Rules = () => {
         body('name').isLength(option.LengthName)
             .withMessage(util.format(MSG.MSG_LENGTH, 'name', option.LengthName.min, option.LengthName.max)),
         body('phone').isLength(option.LengthSDT).withMessage(util.format(MSG.MSG_SDT, option.LengthSDT.min)),
-        body('email').isEmail().withMessage(MSG.MSG_EMAIL)]
+        body('email').isEmail().withMessage(MSG.MSG_EMAIL)
+    ]
 }
 
 const validate = (req, res, next)=>{

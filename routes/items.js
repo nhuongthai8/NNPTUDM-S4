@@ -26,7 +26,6 @@ router.get('/:id', async function (req, res, next) {
 router.post('/add',Rules(),validate,
    async function (req, res, next) {
     try {
-      
       var item = await models.addAnItem(req.body);
       handleresult.showResult(res, 200, true, item);
     } catch (error) {
