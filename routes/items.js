@@ -3,7 +3,7 @@ var router = express.Router();
 var models = require('../models/items');
 var handleresult = require('../configs/handleResult');
 var {Rules,validate} = require('../validator/items');
-
+const protectMiddleware = require('../middleware/protect');
 
 /* GET users listing. */
 router.get('/', async function (req, res, next) {
@@ -23,7 +23,7 @@ router.get('/:id', async function (req, res, next) {
     handleresult.showResult(res, 400, false, error);
   }
 });
-router.post('/add',Rules(),validate,
+router.post('/add',protectMiddleware.protect,Rules(),validate,
    async function (req, res, next) {
     try {
       var item = await models.addAnItem(req.body);

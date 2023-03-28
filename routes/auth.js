@@ -4,6 +4,8 @@ var models = require('../models/auth');
 var handleresult = require('../configs/handleResult');
 var config = require('../configs/configs');
 var { Rules, validate } = require('../validator/auth');
+var validator = require('../validator/auth');
+var protectMiddleware = require('../middleware/protect');
 
 
 /* GET users listing. */
@@ -20,9 +22,9 @@ router.post('/login',
   async function (req, res, next) {
     try {
       var result = await models.Login(req.body);
-      if(!result.error){
-        saveCookieResponse(res,200,result);
-      }else{
+      if (!result.error) {
+        saveCookieResponse(res, 200, result);
+      } else {
         handleresult.showResult(res, 200, true, result);
       }
     } catch (error) {
@@ -30,14 +32,21 @@ router.post('/login',
     }
   });
 
-module.exports = router;
-function saveCookieResponse(res,StatusCode,token){
-  const option = {
-    expirers: new Date(Date.now()+config.COOKIE_EXPIRE*24*3600*1000),
-    httpOnly:true
+router.get('/me', protectMiddleware.protect, async function (req, res, next) {
+  try {
+    handleresult.showResult(res, 200, true, req.user);
+  } catch (error) {
+    handleresult.showResult(res, 400, false, error);
   }
-  res.status(StatusCode).cookie('token',token,option).json({
-    success:true,
-    data:token
+});
+module.exports = router;
+function saveCookieResponse(res, StatusCode, token) {
+  const option = {
+    expirers: new Date(Date.now() + config.COOKIE_EXPIRE * 24 * 3600 * 1000),
+    httpOnly: true
+  }
+  res.status(StatusCode).cookie('token', token, option).json({
+    success: true,
+    data: token
   })
 }
