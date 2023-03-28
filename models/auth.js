@@ -9,7 +9,7 @@ module.exports={
         const {email,password}=item;
         const result = await schema.findByCredentinal(email,password);
         if(result.error){
-            return result.error;
+            return result;
         }
         return result.getSignedJWT();
     }

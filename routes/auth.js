@@ -18,11 +18,26 @@ router.post('/register', Rules(), validate,
 router.post('/login',
   async function (req, res, next) {
     try {
-      var item = await models.Login(req.body);
-      handleresult.showResult(res, 200, true, item);
+      var result = await models.Login(req.body);
+      if(!result.error){
+        saveCookieResponse(res,200,result);
+      }else{
+        handleresult.showResult(res, 200, true, result);
+      }
+      
     } catch (error) {
       handleresult.showResult(res, 400, false, error);
     }
   });
 
 module.exports = router;
+function saveCookieResponse(res,StatusCode,token){
+  const option = {
+    expirers: new Date(Date.now()+30*24*3600*1000),
+    httpOnly:true
+  }
+  res.status(StatusCode).cookie('token',token,option).json({
+    success:true,
+    data:token
+  })
+}
