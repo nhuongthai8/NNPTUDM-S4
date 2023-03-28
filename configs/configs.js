@@ -6,5 +6,6 @@ module.exports={
     user_Collection:'user',
     saltRounds:10,
     JWT_SECRET:'123123123',
-    JWT_EXPIRE:'3d'
+    JWT_EXPIRE:'3d',
+    COOKIE_EXPIRE:'30'
 }

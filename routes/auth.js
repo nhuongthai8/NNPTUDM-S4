@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var models = require('../models/auth');
 var handleresult = require('../configs/handleResult');
+var config = require('../configs/configs');
 var { Rules, validate } = require('../validator/auth');
 
 
@@ -24,7 +25,6 @@ router.post('/login',
       }else{
         handleresult.showResult(res, 200, true, result);
       }
-      
     } catch (error) {
       handleresult.showResult(res, 400, false, error);
     }
@@ -33,7 +33,7 @@ router.post('/login',
 module.exports = router;
 function saveCookieResponse(res,StatusCode,token){
   const option = {
-    expirers: new Date(Date.now()+30*24*3600*1000),
+    expirers: new Date(Date.now()+config.COOKIE_EXPIRE*24*3600*1000),
     httpOnly:true
   }
   res.status(StatusCode).cookie('token',token,option).json({
