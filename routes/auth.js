@@ -39,6 +39,21 @@ router.get('/me', protectMiddleware.protect, async function (req, res, next) {
     handleresult.showResult(res, 400, false, error);
   }
 });
+router.get('/logout', async function (req, res, next) {
+  try {
+    const option = {
+      expirers: new Date(Date.now() + 1000),
+      httpOnly: true
+    }
+    res.status(200).cookie('token', 'none', option).json({
+      success: true,
+      data: {}
+    })
+  } catch (error) {
+    handleresult.showResult(res, 400, false, error);
+  }
+});
+
 module.exports = router;
 function saveCookieResponse(res, StatusCode, token) {
   const option = {
