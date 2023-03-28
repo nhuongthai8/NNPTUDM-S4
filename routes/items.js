@@ -23,7 +23,7 @@ router.get('/:id', async function (req, res, next) {
     handleresult.showResult(res, 400, false, error);
   }
 });
-router.post('/add',protectMiddleware.protect,Rules(),validate,
+router.post('/add',protectMiddleware.protect,protectMiddleware.authorize('user','publisher','admin'),Rules(),validate,
    async function (req, res, next) {
     try {
       var item = await models.addAnItem(req.body);
