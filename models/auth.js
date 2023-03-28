@@ -5,7 +5,12 @@ module.exports={
         let newItem = await new schema(item).save();
         return await newItem.getSignedJWT();
     },
-    Login:()=>{
-        
+    Login:async (item)=>{
+        const {email,password}=item;
+        const result = await schema.findByCredentinal(email,password);
+        if(result.error){
+            return result.error;
+        }
+        return result.getSignedJWT();
     }
 }

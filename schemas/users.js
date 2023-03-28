@@ -18,5 +18,19 @@ Schema.pre('save',function(next){
 Schema.methods.getSignedJWT=function(){
 	return jwt.sign({id:this._id},configs.JWT_SECRET,{expiresIn:configs.JWT_EXPIRE});
 }
+Schema.statics.findByCredentinal = async function(email,password){
+	if(!email||!password){
+		return {error:'khong de trong email va password'};
+	}
+	let user = await this.findOne({email:email});
+	if(!user){
+		return {error:'email khong ton tai'};
+	}
+	let isMatch = await bcrypt.compare(password,user.password);
+	if(!isMatch){
+		return {error:'password sai'};
+	}
+	return user;
 
+}
 module.exports = mongoose.model(configs.user_Collection, Schema);

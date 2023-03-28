@@ -15,10 +15,10 @@ router.post('/register', Rules(), validate,
       handleresult.showResult(res, 400, false, error);
     }
   });
-router.post('/login', Rules(), validate,
+router.post('/login',
   async function (req, res, next) {
     try {
-      var item = await models.addAnItem(req.body);
+      var item = await models.Login(req.body);
       handleresult.showResult(res, 200, true, item);
     } catch (error) {
       handleresult.showResult(res, 400, false, error);
